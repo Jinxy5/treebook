@@ -8,7 +8,18 @@
 </head>
 <body>
 
-<%= yield %>
+<nav class="navbar" role="naviagation">
+	<div class="container">
+		<ol class = "breadcrumb">
+			<li><a href="#"> Treebook </a></li>
+			<li><%= link_to "Statuses", statuses_path %></li>
+			<li><a href="#"> Users </a></li>
+		</ol>
+
+		<%= yield %>
+	</div>
+</nav>
+
 
 </body>
 </html>
