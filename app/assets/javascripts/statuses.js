@@ -1,8 +1,11 @@
 var ready;
-	console.log("Loaded");
-	$('.meta').hover( function(){
-		console.log("Hover triggered");
+
+ready = function() {
+	$('.status').hover( function(){
+		console.log("hover!");
+		$(this).toggleClass("hover");
 	});
+}
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
