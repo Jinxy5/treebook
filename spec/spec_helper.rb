@@ -27,8 +27,11 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    Capybara.run_server = true
+    Capybara.javascript_driver = :webkit
+    Capybara.default_selector = :css
+    Capybara.server_port = 7171
     DatabaseCleaner.start
-    DatabaseCleaner.clean
   end
 
   config.after(:each) do
@@ -37,6 +40,8 @@ RSpec.configure do |config|
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+
+  config.include RSpec::Rails::RequestExampleGroup, type: :feature
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

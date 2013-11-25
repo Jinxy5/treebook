@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe StatusesController do
-        describe "routing" do
+	describe "routing" do
     it "routes to #index" do
       get("/statuses")
       response.should route_to("statuses#show")
