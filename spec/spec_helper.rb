@@ -1,8 +1,10 @@
+DEFAULT_HOST = "testhost.com"
+DEFAULT_PORT = 7171
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
 require 'capybara/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -14,6 +16,13 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
+  config.include Capybara::DSL  
+  Capybara.javascript_driver = :webkit
+
+  Capybara.default_host = "http://#{DEFAULT_HOST}"
+  Capybara.server_port = DEFAULT_PORT
+  Capybara.app_host = "http://#{DEFAULT_HOST}:#{Capybara.server_port}"
+
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -27,10 +36,10 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    Capybara.run_server = true
-    Capybara.javascript_driver = :webkit
-    Capybara.default_selector = :css
-    Capybara.server_port = 7171
+#   Capybara.run_server = true
+#   Capybara.javascript_driver = :webkit
+#   Capybara.default_selector = :css
+#   Capybara.server_port = 7171
     DatabaseCleaner.start
   end
 
@@ -41,7 +50,7 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-  config.include RSpec::Rails::RequestExampleGroup, type: :feature
+  # config.include RSpec::Rails::RequestExampleGroup, type: :feature
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
