@@ -19,7 +19,8 @@ group :test do
 
 	# uses a program called 'libqtwebkit-dev' to build. To install 'libqtwebkit-dev' in Ubuntu, run
 	# sudo apt-get install libqtwebkit-dev
-	gem 'capybara-webkit'
+
+#	gem 'capybara-webkit'
 
 	gem 'rb-readline'
 	gem 'launchy'
