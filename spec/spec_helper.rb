@@ -1,5 +1,5 @@
-DEFAULT_HOST = "testhost.com"
-DEFAULT_PORT = 7171
+# DEFAULT_HOST = "testhost.com"
+# DEFAULT_PORT = 7171
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
@@ -17,11 +17,10 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
   config.include Capybara::DSL  
-  Capybara.javascript_driver = :webkit
-
-  Capybara.default_host = "http://#{DEFAULT_HOST}"
-  Capybara.server_port = DEFAULT_PORT
-  Capybara.app_host = "http://#{DEFAULT_HOST}:#{Capybara.server_port}"
+  # Capybara.javascript_driver = :webkit
+  # Capybara.default_host = "http://#{DEFAULT_HOST}"
+  # Capybara.server_port = DEFAULT_PORT
+  # Capybara.app_host = "http://#{DEFAULT_HOST}:#{Capybara.server_port}"
 
   # ## Mock Framework
   #

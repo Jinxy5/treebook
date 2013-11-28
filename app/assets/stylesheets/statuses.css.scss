@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body {
+	background-color: yellow;	
+}
+
 .status {
 	border-bottom: 1px solid #d9d9d9;
 	padding: 20px 0 20px 0;

@@ -9,6 +9,7 @@ ready = function() {
 	$('a').click(function(){
 		$(this).html("js works");
 	});
+	console.log("should work now!!!asd"):
 }
 
 $(document).ready(ready);

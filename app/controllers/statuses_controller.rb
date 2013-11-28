@@ -10,9 +10,10 @@ class StatusesController < ApplicationController
   # GET /statuses/1
   # GET /statuses/1.json
   def show
+    # GET thingy
   end
 
-  # GET /statuses/new
+  # GET /statuses/sdfnew
   def new
     @status = Status.new
   end

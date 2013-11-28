@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "route" do
- 
+
     it "' /statuses ' routes to statuses#index" do
       	get("/statuses").should route_to(controller: "statuses", action: "index")
     end

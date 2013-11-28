@@ -7,8 +7,7 @@
  */
 
 if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery") }
-
-/* ========================================================================
+/* ========================================asdasd================================
  * Bootstrap: transition.js v3.0.2
  * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
@@ -26,7 +25,6 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ======================================================================== */
-
 
 +function ($) { "use strict";
 

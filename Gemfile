@@ -16,7 +16,7 @@ end
 group :test do
 	gem 'factory_girl_rails'
 	gem 'capybara', '~> 2.2.0'
-
+	gem 'selenium-webdriver'
 	# uses a program called 'libqtwebkit-dev' to build. To install 'libqtwebkit-dev' in Ubuntu, run
 	# sudo apt-get install libqtwebkit-dev
 
