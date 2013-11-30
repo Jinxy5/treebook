@@ -31,7 +31,11 @@ FactoryGirl.define do
 	end
 
 	factory :user_with_no_attributes, class: User do
-	
+		last_name ""
+		profile_name ""	
+		email ""
+		password ""
+		password_confirmation ""
 	end
 
 =begin
