@@ -6,10 +6,10 @@ ready = function() {
 		$(this).toggleClass("hover");
 	});
 
-	$('a').click(function(){
+/*	$('a').click(function(){
 		$(this).html("js works");
 	});
-	console.log("should work now!!!asd"):
+*/
 }
 
 $(document).ready(ready);
