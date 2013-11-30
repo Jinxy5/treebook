@@ -1,1 +1,2 @@
-./spec/features/something_spec.rb:20
+./spec/model/user_spec.rb:11
+./spec/model/user_spec.rb:20

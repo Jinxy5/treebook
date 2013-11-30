@@ -1,3 +1,4 @@
+=begin
 require 'spec_helper'
 
 describe "route" do
@@ -38,3 +39,4 @@ describe "route" do
       	get("/").should route_to(controller: "statuses", action: "index")
     end
 end
+=end

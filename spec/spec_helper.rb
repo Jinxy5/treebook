@@ -1,11 +1,13 @@
-# DEFAULT_HOST = "testhost.com"
-# DEFAULT_PORT = 7171
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
+
+def set(factory)
+  @user = FactoryGirl.create(factory) 
+end
+
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -16,29 +18,11 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
-  config.include Capybara::DSL  
-  # Capybara.javascript_driver = :webkit
-  # Capybara.default_host = "http://#{DEFAULT_HOST}"
-  # Capybara.server_port = DEFAULT_PORT
-  # Capybara.app_host = "http://#{DEFAULT_HOST}:#{Capybara.server_port}"
-
-  # ## Mock Framework
-  #
-  # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
+  config.include Capybara::DSL
+=begin
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each) do
-#   Capybara.run_server = true
-#   Capybara.javascript_driver = :webkit
-#   Capybara.default_selector = :css
-#   Capybara.server_port = 7171
     DatabaseCleaner.start
   end
 
@@ -46,8 +30,15 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  config.after(:suite) do
+#   DatabaseCleaner.strategy = :transaction
+#   DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean
+  end
+=end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # config.include RSpec::Rails::RequestExampleGroup, type: :feature
 

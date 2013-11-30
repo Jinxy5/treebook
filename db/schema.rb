@@ -14,15 +14,16 @@
 ActiveRecord::Schema.define(version: 20131128160933) do
 
   create_table "statuses", force: true do |t|
+    t.string   "name"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
-  add_index "statuses", ["user_id"], name: "index_statuses_on_user_id"
-
   create_table "users", force: true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "profile_name"
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -42,9 +43,6 @@ ActiveRecord::Schema.define(version: 20131128160933) do
     t.datetime "locked_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "profile_name"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
