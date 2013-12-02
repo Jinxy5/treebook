@@ -10,6 +10,7 @@ group :rspec do
   end
 end
 
+=begin
 group :shell do
   guard :shell do
     watch(/Gemfile/) { `bundle install` }
@@ -17,3 +18,4 @@ group :shell do
   #  watch(/db\/migrate/) { `bin/rake db:migrate RAILS_ENV=development` }
   end
 end
+=end

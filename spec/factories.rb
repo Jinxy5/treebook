@@ -5,13 +5,23 @@ FactoryGirl.define do
 	end
 
 	factory :user_with_all_valid, class: User do
-		first_name "Jimmy"
+		first_name "jimmy12"
+		last_name "Thehat"
+		profile_name "Jimbohatboy"	
+		email "awesomedog@hotmail.co.uk"
+		password "thisisasupersecretpassword12234234"
+		password_confirmation "thisisasupersecretpassword12234234"
+	end
+
+	factory :user_with_blank_first_name, class: User do
+		first_name ""
 		last_name "Thehat"
 		profile_name "Jimbohatboy893"	
 		email "awesomedog@hotmail.co.uk"
 		password "thisisasupersecretpassword12234234"
 		password_confirmation "thisisasupersecretpassword12234234"
 	end
+
 
 	factory :user_with_all_valid_2, class: User do
 		first_name "Billy"

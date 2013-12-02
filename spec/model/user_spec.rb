@@ -1,35 +1,164 @@
 require 'spec_helper'
+			
+			def test
+ 				def colorize(text, color_code)
+				  "\e[#{color_code}m#{text}\e"
+				end
 
-RSpec::Matchers.define :be_valid do
-  match do |actual|
-    actual.valid?
-  end
+				def red(text); colorize(text, 31); end
+				def green(text); colorize(text, 32); end
+				def black(text); colorize(text, 30); end
+				def yellow(text); colorize(text, 33); end
+				def blue(text); colorize(text, 34); end
+				def magenta(text); colorize(text, 35); end
+				def cyan(text); colorize(text, 36); end
+				def white(text); colorize(text, 37); end
+	
+				if subject.valid?
+					puts cyan(' | ') + magenta('Validation errors: ' + subject.errors.messages.inspect.to_s )
+				else
+					puts cyan(' | ') + magenta('Validation errors: ' + subject.errors.messages.inspect.to_s )
+				end
+			end
+=begin
+			# function start
+			def put_validation_errors
 
-  failure_message_for_should do |actual|
-    "expected that #{actual} would be valid (errors: #{actual.errors.full_messages.inspect})"
-  end
+				puts "da fuq?"
 
-  failure_message_for_should_not do |actual|
-    "expected that #{actual} would not be valid"
-  end
+				def colorize(text, color_code)
+				  "\e[#{color_code}m#{text}\e[0m"
+				end
 
-  description do
-    "be valid"
-  end
-end
+				def red(text); colorize(text, 31); end
+				def green(text); colorize(text, 32); end
+
+				# puts subject.errors.inspect
+
+				puts "*****____*****____*****___*****"
+				puts subject.errors.messages.inspect
+				puts subject.errors.messages.length
+				puts "*****____*****____*****___*****"
+
+				if subject.errors.messages.length > 0
+
+					maxlength = 0
+					dash = "-"
+					line = ""
+
+					subject.errors.each do |a, e|	
+					
+						if maxlength < a.length
+							maxlength = a.length
+						end
+						if maxlength < e.length
+							maxlength = a.length
+						end
+					end
+
+					maxlength.times do
+						line << dash
+					end
+
+
+					subject.errors.each do |a, e|	
+						puts line
+						puts a
+						puts e
+						puts line 
+					end
+		    	puts red('Validation errors: ' + subject.errors.messages.inspect.to_s )
+				else
+					puts green('Validation errors: ' + subject.errors.messages.inspect.to_s )
+				end
+			end
+
+					it "spec should not have errors" do		  	
+
+		#  	puts subject.valid? # we need to see if the subject is valid in order for the messages hash to be populated!
+		 # 	puts subject.errors.messages.inspect.to_s
+
+		 	test
+
+		#  	puts subject.errors.inspect.messages
+		#  	should_not be_valid
+		end
+=end
 
 describe User do
-  	before(:each) do
-	  if example.metadata[:user_with_all_valid]
-		set(:user_with_all_valid) 
-	  elsif example.metadata[:user_with_all_valid_2]
-		set(:user_with_all_valid_2) 
-	  elsif example.metadata[:user_with_no_attributes]
-		set(:user_with_no_attributes)		
-	  end 
-    end
+	it "one"
+	it "two"
+	it "three"
+
+=begin
+
+	context "with all valid attributes" do
+	 	before { @user = FactoryGirl.build(:user_with_all_valid) }
+		subject { @user }
+
+		it { should be_valid }
+
+		it "spec should not have errors" do
+  			stdout.stub(:write) # and/or $stderr if needed
+			test
+		end
+		puts "xXx"
+	end
+
+	context "with all valid attributes" do
+	 	before { @user = FactoryGirl.build(:user_with_all_valid) }
+		subject { @user }
+
+		it { should be_valid }
+
+		it "spec should not have errors" do		  	
+			test
+		end
+		puts "\n"
+	end
+=end
+end
+
+=begin
+	context "with non-alphanumerical characters in first_name" do
+	 	before do
+	 		@user = FactoryGirl.build(:user_with_all_valid)
+	 		@user.first_name = "Jim\!\@\£\%\^\&\*\(\)"
+	 	end
+		
+		subject { @user }
+
+		it { should_not be_valid }
 	
+	end
+
+	context "with numbers in first_name" do
+	 	before do
+	 		@user = FactoryGirl.build(:user_with_all_valid)
+	 		@user.first_name = "Jimmy93"
+	 	end
+		
+		subject { @user }
+
+		it { should_not be_valid }
+	end
+=end
+
+=begin
+  	before(:each) do
+  		@user = FactoryGirl.create(:user_with_all_valid) 
+	  if example.metadata[:user_with_all_valid]
+		@user = FactoryGirl.create(:user_with_all_valid) 
+	  elsif example.metadata[:user_with_blank_first_name]
+	  	@user = FactoryGirl.create(:user_with_blank_first_name)
+	  elsif example.metadata[:user_with_no_attributes]
+
+	  end 	
+	end
+
 	describe User, user_with_all_valid: true do
+		subject { @user }
+
 		context "all valid attributes"	do
 			subject { @user }
 
@@ -42,19 +171,22 @@ describe User do
 			its(:password_confirmation) { should == "thisisasupersecretpassword12234234" }
 		end
 
+    
+    context "with invalid credentials" do
+      authorization_header = ActionController::HttpAuthentication::Basic.encode_credentials("123456", nil)
+      env_headers['HTTP_AUTHORIZATION'] = authorization_header
+
+      it "should fail" do
+        get '/tasks', nil, env_headers
+        response.status.should eq(401)
+      end
+    end
+
 		# validations 
-		context "blank first_name" do
-			let (:first_name) {""}
+		context "blank first_name", user_with_blank_first_name: true do
+			subject { @user }
 
 			it { should_not be_valid }
-=begin
-			its(:first_name) { should == nil }
-			its(:last_name) { should == nil }
-			its(:profile_name) { should == nil }
-			its(:email) { should == nil }
-			its(:password) { should == nil }
-			its(:password_confirmation) { should == nil }
-=end
 		end
 		context "blank last_name" do
 			let (:last_name) {""}
@@ -80,5 +212,15 @@ describe User do
 			let(:password_confirmation) { "thisisasupersecretpassword12234234____and_some_extra_strings" }
 			it { should_not be_valid }
 		end
+		
+
+		context "incorrectly formated profile_name" do
+			let(:profile_name) { "Jimbohatboy893" }
+			it { should be_valid }
+		end
+
+
 	end
+
 end
+=end

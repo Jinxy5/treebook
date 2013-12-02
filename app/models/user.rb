@@ -7,7 +7,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :first_name, presence: true
+
+  validates_length_of :first_name, maximum: 15
+  validates :first_name, presence: true, format: { with: /\A[a-zA-Z]*\z/}
+
+
   validates :last_name, presence: true
   validates :profile_name, presence: true
 

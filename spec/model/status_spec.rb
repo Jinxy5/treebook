@@ -1,4 +1,4 @@
-
+=begin
 require 'spec_helper'
 
 describe Status do
@@ -12,3 +12,4 @@ describe Status do
 	#	its(:content) { should == "This is definitely the number one status! One, as in 1!"}
 	end
 end
+=end

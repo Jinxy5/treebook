@@ -19,10 +19,10 @@
 
 			<% if current_user != nil %>
 				<li class = "pull-right"><%= link_to "Welcome, " + current_user.full_name + "!", edit_user_registration_path %></li>
-				<li class = "pull-right"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+				<li class = "pull-right"><%= link_to "Sign Out", logout_path, method: :delete %></li>
 			<% elsif %>
-				<li class = "pull-right"><%= link_to "Sign In", new_user_session_path %></li>
-				<li class = "pull-right"><%= link_to "Register", new_user_registration_path %></li>
+				<li class = "pull-right"><%= link_to "Sign In", login_path %></li>
+				<li class = "pull-right"><%= link_to "Register", register_path %></li>
 			<% end %>
 		
 		</ol> 
