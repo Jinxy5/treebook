@@ -7,7 +7,6 @@ group :development do
 end
 
 group :development, :test do
-	gem 'rspec-rails', '~> 2.14.0'
 	gem 'sqlite3'
 	gem 'guard-rspec'
 	gem 'guard-livereload', require: false
@@ -16,11 +15,18 @@ group :development, :test do
 end
 
 group :test do
+	gem 'rspec-rails'
+	gem 'shoulda-matchers'
 	gem 'factory_girl_rails'
 	gem 'capybara', '~> 2.2.0'
 	gem 'selenium-webdriver'
-# 	capybara-webkit gem requires an application called 'libqtwebkit-dev' to build. To install 'libqtwebkit-dev' in Ubuntu, run
-# 	sudo apt-get install libqtwebkit-dev
+=begin 	
+	capybara-webkit requires an application called 'libqtwebkit-dev' to compile. 
+	All headless servers need an external program to install, and capybara-webkit is the easiet.
+	To install 'libqtwebkit-dev' on Ubuntu, run
+    
+  	sudo apt-get install libqtwebkit-dev
+=end
 #	gem 'capybara-webkit'
 	gem 'rb-readline'
 	gem 'launchy'
@@ -52,5 +58,10 @@ end
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'devise'
 gem 'simple_form'
+gem 'awesome_print'
+
+
+# tests
+gem 'selenium-webdriver'
 
 

@@ -3,6 +3,8 @@ Treebook::Application.routes.draw do
   devise_for :users
   resources :statuses
   root 'statuses#index'
+
+  resources :user_friendships
   
   devise_scope :user do
     get 'register', to: 'devise/registrations#new', as: :register
