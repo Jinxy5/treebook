@@ -1,10 +1,23 @@
 Treebook::Application.routes.draw do
-  get "profiles/show"
+
+
   devise_for :users
+
+  get 'index_friend', to:'user_friendships#index'
+  
+  get 'new_friend/:friend_id', to:'user_friendships#new', as: :friendships
+  get 'profiles/:friend_id', to:'profiles#show', as: :profile
+
   resources :statuses
+
   root 'statuses#index'
 
-  resources :user_friendships
+  resources :user_friendships do
+    member do
+      put :accept, as: :testies_lol
+      patch :edit, as: :testies
+    end
+  end
   
   devise_scope :user do
     get 'register', to: 'devise/registrations#new', as: :register

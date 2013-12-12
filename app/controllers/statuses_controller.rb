@@ -26,7 +26,12 @@ class StatusesController < ApplicationController
   # POST /statuses
   # POST /statuses.json
   def create
-    @status = Status.new(status_params)
+    @status = Status.create(status_params)
+    @status.user_id = current_user.id
+
+    ### or do this. Rails is smart enough to not care about the id
+    # @status.user = current_user 
+    ###
 
     respond_to do |format|
       if @status.save

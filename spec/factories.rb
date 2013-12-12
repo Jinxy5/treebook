@@ -8,11 +8,39 @@ FactoryGirl.define do
 		first_name "jimmy"
 		last_name "Thehat"
 		profile_name "Jimbohatboy"	
-		email "awesomedog@hotmail.co.uk"
+		sequence (:email){ |n| "awesomedog" + n.to_s + "@hotmail.co.uk" }
 		password "thisisasupersecretpassword12234234"
 		password_confirmation "thisisasupersecretpassword12234234"
 	end
 
+	# look into the following:
+	# we can nest factories
+	# we can use sequences to increment email addresses and make them unique
+	# we can set up associations (below)
+
+	# use fresh users here, that's what'ss causing the error
+
+	# what's with the association. Does simply calling it write the assosiated factories (:user and :friend) to their own table?
+
+	factory :user_friendship_1, class: UserFriendship do
+		association :user, factory: :user_with_all_valid_five
+		# or :user_id, factory: :user_with_all_valid[id]
+		association :friend, factory: :user_with_all_valid_six
+		# or :friend_id, factory: :user_with_all_valid_two[id]
+
+		factory :pending_user_friendship do
+			state 'pending'
+		end
+
+		factory :requested_user_friendship do
+			state 'requested'
+		end
+
+		factory :accepted_user_friendship do
+			state 'accepted'
+		end
+	end
+	
 	factory :user_with_all_valid_two, class: User do
 		first_name "Mattychips"
 		last_name "Matthews"
@@ -36,6 +64,24 @@ FactoryGirl.define do
 		last_name "Plath"
 		profile_name "Ovengirl64676421"	
 		email "ovengirl@987987.co.uk"
+		password "thisisasupersecretpassword12234234"
+		password_confirmation "thisisasupersecretpassword12234234"
+	end	
+
+	factory :user_with_all_valid_five, class: User do
+		first_name "Charles"
+		last_name "Dickens"
+		profile_name "LondonBoy1880"	
+		email "quitethe@twist.co.uk"
+		password "thisisasupersecretpassword12234234"
+		password_confirmation "thisisasupersecretpassword12234234"
+	end	
+
+	factory :user_with_all_valid_six, class: User do
+		first_name "Mary"
+		last_name "Shelly"
+		profile_name "FrankenStein"	
+		email "the@creature.co.uk"
 		password "thisisasupersecretpassword12234234"
 		password_confirmation "thisisasupersecretpassword12234234"
 	end	

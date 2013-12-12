@@ -1,0 +1,64 @@
+<h1> Viewing Friendship</h1>
+
+<!--
+	If we're the requested user do this.
+	So basically this means, if @user_friendship.requested? = true
+
+	and @user_friendship is the current user, scoped to the current user.
+
+	this is something to do with the 
+
+	state: :requested 
+
+	method in the state machine. That dynamically creates the 'requested' method. Not sure how it all fits together though
+
+	what does it prove?
+
+	I think it's simply something to do with the |state| attribute of the User_friendship. If the current user_friendship has a .state of
+	requested, do this.
+
+	I think this:
+
+	state_maachine :state, initial: :pending do
+		state: :accepted
+	end
+
+	if @user_friendship.requested?
+		puts "The state is accepted!"
+	end
+
+	is a shorthand for this:
+
+	if @user_friendship.state == "accepted"
+		puts "The state is accepted!"
+	end
+
+	but I still fail to see the reasoning:
+
+	Transcript:
+
+	So what we're doing is we're saying if this user_friendship object is a requested friendship
+11:29
+this means that the current user is the one who is being requested
+11:32
+when we create this user_friendship form, it goes to the accept_user_friendship path,
+11:40
+and the method is put since we're updating the resource.
+11:45
+And we just have a submit_tag for accepting the friendship.
+-->
+
+<% if @user_friendship.requested? %>
+	<h1> Do you really want to be friends with <%= @friend.first_name %> ?</h1>
+<% end %>
+
+
+
+
+<div class="form-actions">
+	<% if @user_friendship.requested? %>
+		<%= form_for @user_friendship, url: accept_user_friendship_path(@user_friendship), method: :put do |form| %>
+			<%= submit_tag "Accept Friendship", class: "btn btn-primary" %>
+		<% end %>
+	<% end %>
+</div>

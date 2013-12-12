@@ -59,7 +59,11 @@ gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'devise'
 gem 'simple_form'
 gem 'awesome_print'
+gem 'state_machine'
+gem 'sunspot_rails'
 
+gem 'state_machine'
+gem 'ruby-graphviz', :require => 'graphviz' # Optional: only required for graphing
 
 # tests
 gem 'selenium-webdriver'

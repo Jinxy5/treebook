@@ -1,2 +1,34 @@
-<h1>Profiles#show</h1>
-<p>Find me in app/views/profiles/show.html.erb</p>
+
+
+<h1>Welcome to <%= @profile.profile_name %>'s profile!</h1>
+	<%= link_to "Add " + @profile.profile_name + " as a friend!", friendships_path( @profile.profile_name ), class: 'btn' %>
+
+
+
+    <% @statuses.each do |status| %>
+      <div class = "status">
+        <strong> <%= link_to status.user.profile_name, profile_path(status.user.profile_name)  %></strong>
+        <p> <%= status.content %> </p>
+        <div class = "meta" >
+          <%= link_to time_ago_in_words(status.created_at) + ' ago', status %> 
+          <span class = "admin">
+             | <%= link_to 'Edit', edit_status_path(status) %> |
+            <%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+
+    <h1> And here are his friends </h1>
+    <% @friends.each do |f| %>
+    	<%= f[0].profile_name %><br>
+    <% end %>
+
+<!-- my way -->
+<%#= #link_to "Add " + @profile.full_name + " as a friend!", friendships_path(params[:id]) %>
+<!-- Jason's way -->
+<br>
+<%#= link_to "Add " + @profile.full_name + "as a friend!", friendships_path(friend_id: @profile) %>
+<br>
+
+

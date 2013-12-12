@@ -1,0 +1,22 @@
+These are <%= current_user.full_name %>'s friends!<br>
+
+<% @user_friendships.each do |friendship| %>
+	<% friend = friendship.friend %>
+
+		<%= friend.full_name %>
+		
+		<% if friendship.pending? %>
+			<em> Your request pending. </em> <%= link_to "Delete your request to " + friend.full_name, edit_user_friendship_path(friendship.id) %>
+		<% end %>
+
+		<% if friendship.requested? %>
+			<em> Wants to be your friend. </em> <%= link_to "Accept " + friend.full_name + "'s request.", edit_user_friendship_path(friendship.id) %>
+		<% end %>
+
+		<% if friendship.accepted? %>
+			<em> wants to be your friend. <em> <%= link_to "Update " + friend.full_name + "'s request.", edit_user_friendship_path(friendship.id) %>
+		<% end %>
+
+
+		<br>
+<% end %>

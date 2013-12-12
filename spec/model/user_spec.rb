@@ -1,5 +1,35 @@
 require 'spec_helper'
+	
+describe User do
+	context "\b: With four valid users" do
+		before do
+			@user_1 = FactoryGirl.create(:user_with_all_valid)
+			@user_2 = FactoryGirl.create(:user_with_all_valid_two)
+			@user_3 = FactoryGirl.create(:user_with_all_valid_three)
+			@user_4 = FactoryGirl.create(:user_with_all_valid_four)
+		end
+
+		context "\b, and @user_1 friends with @user_2, @user_3 and @user_4" do
+			before do
+				@user_1.friends << @user_2 << @user_3 << @user_4
+			end
 			
+			it "\b, @user_1's friends array should not include @user_2, @user_3 or @user_4" do
+				@user_1.friends.reload
+				@user_1.friends.should_not include(@user_1, @user_2, @user_3, @user_4)		
+			end
+
+			it "\b, @user_1's pending friends array should include @user_2, @user_3 and @user_4" do
+				@user_1.friends.reload
+				@user_1.pending_friends.should include(@user_2, @user_3, @user_4)		
+			end
+		end
+
+	end
+
+end
+
+=begin
 			def test
  				def colorize(text, color_code)
 				  "\e[#{color_code}m#{text}\e"
@@ -20,7 +50,7 @@ require 'spec_helper'
 					puts cyan(' | ') + magenta('Validation errors: ' + subject.errors.messages.inspect.to_s )
 				end
 			end
-=begin
+
 			# function start
 			def put_validation_errors
 
@@ -85,10 +115,7 @@ require 'spec_helper'
 		end
 =end
 
-describe User do
-	it "one"
-	it "two"
-	it "three"
+
 
 =begin
 
@@ -116,8 +143,9 @@ describe User do
 		end
 		puts "\n"
 	end
-=end
 end
+
+=end
 
 =begin
 	context "with non-alphanumerical characters in first_name" do

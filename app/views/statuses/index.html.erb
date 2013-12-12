@@ -7,10 +7,12 @@ Okay, let's just tweak something
   
     <a href = "#">JS HERE</a>
 
+    <% require "ap" %>
+    <%= ap @statuses %>
 
     <% @statuses.each do |status| %>
       <div class = "status">
-        <strong> <%= status.user.full_name %> </strong>
+        <strong> <%= link_to status.user.profile_name, profile_path(status.user.profile_name)  %></strong>
         <p> <%= status.content %> </p>
         <div class = "meta" >
           <%= link_to time_ago_in_words(status.created_at) + ' ago', status %> 
