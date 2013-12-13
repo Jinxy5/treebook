@@ -8,14 +8,14 @@ class UserFriendshipsController < ApplicationController
 		#
 		# exactly the same result. Find out the benefit and the reasoning.
 	
-		@user_friendships = current_user.user_friendships.find_by_id(params[:id])
+		@user_friendship = current_user.user_friendships.find_by_id(params[:id])
 		
 		# a shorthand for if @user_friendships.accept! == true . All methods evaluate to boolean true
-		# 'true' if they are successful, and false if otherwise. This way, we can do a simple statement:
-		if @user_friendships.accept!
-			flash[:success] = "You are now friends with " + @user_friendships.friend.first_name + "!"
+		# 'true' if they are successful, and false if otherwise. This way, we can do a simple statement which calles the .accept! method and sets it
+		if @user_friendship.accept!
+			flash[:success] = "You are now friends with " + @user_friendship.friend.first_name + "!"
 		else
-			flash[:error] = "Friendship between you, " + current_user.profile_name + " and " + @user_friendships.friend.first_name + "could not be created"
+			flash[:error] = "Friendship between you, " + current_user.profile_name + " and " + @user_friendship.friend.first_name + "could not be created"
 		end
 
 		redirect_to user_friendship_path
@@ -23,7 +23,7 @@ class UserFriendshipsController < ApplicationController
 
 	def edit
 		@user_friendship = current_user.user_friendships.find_by_id(params[:id])	
-
+		@friend = @user_friendship.friend
 	end
 
 	def index
@@ -59,10 +59,12 @@ class UserFriendshipsController < ApplicationController
 
 	def create
 
-		if params[:user_friendship][:friend_id]
+		if params[:id]
 
-			@friend = User.find_by_id(params[:user_friendship][:friend_id])
+			@friend = User.find_by_id(params[:id])
 			logger.fatal @friend.inspect
+
+
 		else
 
 		end
@@ -70,10 +72,10 @@ class UserFriendshipsController < ApplicationController
 		if @friend
 
 			UserFriendship.request(current_user,@friend)
-
-#			current_user.user_friendships.create(friend: @friend)
 			
-			flash[:success] = @friend.profile_name + " added as friend!"
+
+			flash[:success] = "You are now friends with " + @friend.first_name + "!"
+
 			redirect_to profile_path(@friend.profile_name), status: 302
 
 		else

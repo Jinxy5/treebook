@@ -1,4 +1,4 @@
-<h1> Viewing Friendship</h1>
+<h1> Viewing Friendship </h1>
 
 <!--
 	If we're the requested user do this.
@@ -48,17 +48,20 @@ and the method is put since we're updating the resource.
 And we just have a submit_tag for accepting the friendship.
 -->
 
-<% if @user_friendship.requested? %>
-	<h1> Do you really want to be friends with <%= @friend.first_name %> ?</h1>
-<% end %>
 
 
 
 
 <div class="form-actions">
 	<% if @user_friendship.requested? %>
+		<%= @friend.first_name %> user has requested your friendship. Accept?
 		<%= form_for @user_friendship, url: accept_user_friendship_path(@user_friendship), method: :put do |form| %>
 			<%= submit_tag "Accept Friendship", class: "btn btn-primary" %>
 		<% end %>
+	
+	<% elsif @user_friendship.pending? %>
+		You have sent a request to another user. Delete the request?
+		
 	<% end %>
+
 </div>

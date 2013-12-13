@@ -3,9 +3,9 @@ Treebook::Application.routes.draw do
 
   devise_for :users
 
-  get 'index_friend', to:'user_friendships#index'
+  #get 'index_friend', to:'user_friendships#index'
   
-  get 'new_friend/:friend_id', to:'user_friendships#new', as: :friendships
+  #get 'new_friend/:friend_id', to:'user_friendships#new', as: :friendships
   get 'profiles/:friend_id', to:'profiles#show', as: :profile
 
   resources :statuses
@@ -14,8 +14,7 @@ Treebook::Application.routes.draw do
 
   resources :user_friendships do
     member do
-      put :accept, as: :testies_lol
-      patch :edit, as: :testies
+      put :accept
     end
   end
   

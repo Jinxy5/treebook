@@ -29,7 +29,6 @@ class User < ActiveRecord::Base
   this behavior is open to all new **things** that have a have_many reltionship through the 'pending_user_friendships' table
  
   'pending_friends' is acting as a handle, a new method (.pending_friends) for our User that contains the result of 'pending_user_friendships'
-
 =end
 
   has_many :pending_user_friendships, class_name: 'UserFriendship',

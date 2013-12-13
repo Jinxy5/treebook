@@ -36,10 +36,30 @@ class UserFriendship < ActiveRecord::Base
 	end
 	
 	automatically creates the accept! method, with an exclamation point
+
+	the transition any => means set this state to accepted, and ignore what the previous state was. Transition to 'accepted' from any other state. (I think you can set rules here)
+
 =end
 		event :accept do
 			transition any => :accepted
 		end
+
+		event :request do
+			transition any => :requested
+		end
+
+		event :pend do
+			transition any => :pending
+		end
+
+		event :deny do
+			transition any => :denied
+		end
+
+		event :block do
+			transition any => :blocked
+		end
+
 
 =begin
 	not sure what this does but I think it's something to do with the 'requested?' method in the edit view
@@ -70,10 +90,16 @@ class UserFriendship < ActiveRecord::Base
 
 		The 'state' method also automatically adds class methods to check on the state of an instance very easily (returns boolean true or false):
 	
-		@instance.foo?
-		@instance.bar?
-		@instance.baz?
-		@instance.cax?
+		@instance.foo? -> returns true if the state is foo, otherwise false
+		@instance.bar? -> returns true if the state is bar, otherwise false
+		@instance.baz? -> returns true if the state is baz, otherwise false
+		@instance.cax? -> returns true if the state is cax, otherwise false
+
+		The 'pending' state does exist, just like the others. But because it's the initial state, we can create it when we call state_machine:
+
+		state_machine :state, initial: :pending do
+		|-|
+		state :pending
 
 =end
 		state :requested

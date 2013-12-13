@@ -24,7 +24,7 @@
 
 
 			<% if current_user != nil %>
-				<li class = "pull-right"><%= link_to current_user.full_name + "'s Friendships", index_friend_path %></li>
+				<li class = "pull-right"><%= link_to current_user.full_name + "'s Friendships", user_friendships_path %></li>
 
 				<li class = "pull-right"><%= link_to "Welcome, " + current_user.full_name + "!", edit_user_registration_path %></li>
 				<li class = "pull-right"><%= link_to "Sign Out", logout_path, method: :delete %></li>

@@ -28,6 +28,8 @@ describe UserFriendshipsController do
 				before do
 				end
 
+
+=begin
 				context "\b, a PUT request to the #accept action" do
 					before do
 						put :accept, id: 1
@@ -42,6 +44,7 @@ describe UserFriendshipsController do
 						response.should redirect_to new_user_session_path
 					end
 				end 
+=end
 			end
 
 			context "\b, and when logged in as @user_1" do
@@ -58,11 +61,19 @@ describe UserFriendshipsController do
 						it "should not raise error" do
 							expect{ @user_friendship_1.requestedpoopis? }.to_not raise_error
 						end
+
+						it "should return false" do
+							@user_friendship_1.requestedpoopis?.should == false
+						end
 					end
 
 					context ".requested?" do
 						it "should not raise error" do
 							expect{ @user_friendship_1.requested? }.to_not raise_error
+						end
+
+						it "should return false" do
+							@user_friendship_1.requested?.should == false
 						end
 					end
 
@@ -71,11 +82,19 @@ describe UserFriendshipsController do
 						it "should not raise error" do
 							expect{ @user_friendship_1.pending? }.to_not raise_error
 						end
+
+						it "should return false" do
+							@user_friendship_1.pending?.should == true
+						end
 					end
 
 					context ".accepted?" do
 						it "should not raise error" do
 							expect{ @user_friendship_1.accepted? }.to_not raise_error
+						end
+
+						it "should return false" do
+							@user_friendship_1.accepted?.should == false
 						end
 					end
 					
@@ -83,11 +102,107 @@ describe UserFriendshipsController do
 						it "should not raise error" do
 							expect{ @user_friendship_1.denied? }.to_not raise_error
 						end
+		
+						it "should return false" do
+							expect @user_friendship_1.denied?.should == false
+						end
 					end
 
 					context ".blocked?" do
 						it "should not raise error" do
 							expect{ @user_friendship_1.blocked? }.to_not raise_error
+						end
+
+						it "should return false" do
+							expect @user_friendship_1.blocked?.should == false
+						end
+					end
+
+					context ".accept!" do
+						it "should not raise error" do
+							expect{ @user_friendship_1.accept! }.to_not raise_error
+						end
+
+						it "should return true" do
+							@user_friendship_1.accept!.should == true
+						end
+
+						it "should set the state to accepted" do
+							@user_friendship_1.accept!
+							@user_friendship_1.state.should == 'accepted'
+						end
+					end
+
+
+					context ".request!" do
+						it "should not raise error" do
+							expect{ @user_friendship_1.request! }.to_not raise_error
+						end
+
+						it "should return true" do
+							@user_friendship_1.accept!.should == true
+						end
+
+						it "should set the state to accepted" do
+							@user_friendship_1.accept!
+							@user_friendship_1.state.should == 'accepted'
+						end
+					end
+
+					context ".requested?" do
+						it "should not raise error" do
+							expect{ @user_friendship_1.requested? }.to_not raise_error
+						end
+
+						it "should return false" do
+							@user_friendship_1.requested?.should == false
+						end
+					end
+
+
+					context ".pending?" do
+						it "should not raise error" do
+							expect{ @user_friendship_1.pending? }.to_not raise_error
+						end
+
+						it "should return false" do
+							@user_friendship_1.pending?.should == true
+						end
+					end
+
+					context ".accepted?" do
+						it "should not raise error" do
+							expect{ @user_friendship_1.accepted? }.to_not raise_error
+						end
+
+						it "should return false" do
+							@user_friendship_1.accepted?.should == false
+						end
+					end
+					
+					context ".denied?" do
+						it "should not raise error" do
+							expect{ @user_friendship_1.denied? }.to_not raise_error
+						end
+		
+						it "should return false" do
+							expect @user_friendship_1.denied?.should == false
+						end
+					end
+
+					context ".block!" do
+						it "should not raise error" do
+							expect{ @user_friendship_1.block! }.to_not raise_error
+						end
+
+						it "should return true" do
+							@user_friendship_1.block!.should == true
+						end
+
+						it "should change the state to blocked" do
+							@user_friendship_1.block!
+							@user_friendship_1.reload		
+							@user_friendship_1.state.should == 'blocked'
 						end
 					end
 
@@ -113,6 +228,47 @@ describe UserFriendshipsController do
 	#						page.should have_content 'Pending'
 	#						page.should have_content 'Active'
 						end
+					end
+
+					context ".accept" do
+						before do
+							put :accept, id: @user_friendship_1.id
+							@user_friendship_1.reload
+						end
+
+						it "should assign a user_friendship" do
+							assigns(:user_friendship).should == @user_friendship_1
+						end
+
+						it "should update the state to accepted" do
+							@user_friendship_1.state.should == 'accepted'
+						end
+
+						it "should populate the flash with a success message" do
+							flash[:success].should == "You are now friends with " + @user_friendship_1.friend.first_name + "!"
+							flash[:success].should == "You are now friends with " + @user_2.first_name + "!"
+						end
+					end
+
+					context ".edit" do
+						before do
+							get :edit, id: @user_friendship_1.id
+							@user_friendship_1.reload
+						end
+
+						it "should respond with a redirect" do
+							response.response_code.should == 200
+						end
+
+						it "should assign a user_friendship" do
+							assigns(:user_friendship).should == @user_friendship_1
+						end
+
+						it "should assign a friend" do
+							assigns(:friend).should == @user_2
+						end
+
+
 					end
 
 					it "should not send an email" do
@@ -162,8 +318,34 @@ describe UserFriendshipsController do
 						end
 					end
 
+					context "#create" do
+						# create uses the friend's id. 
+						before do
+							get :create, id: @user_2.id
+						end
 
-					context ".request with two users" do
+						it "should create two user friendships" do
+							UserFriendship.count.should == 3
+						end
+
+						it "" do
+							response.response_code.should == 302
+						end
+
+						it "" do
+							response.should redirect_to profile_path(@user_2.profile_name)
+						end
+
+
+
+						it "should populate the flash with a success message" do
+							flash[:success].should == "You are now friends with " + @user_friendship_1.friend.first_name + "!"
+							flash[:success].should == "You are now friends with " + @user_2.first_name + "!"
+						end
+					end
+
+
+					context ".request" do
 						before do
 							UserFriendship.request(@user_1, @user_2)
 						end
@@ -176,24 +358,7 @@ describe UserFriendshipsController do
 
 
 
-
-
-					context "\b, a PATCH request to the #edit action with the :id of @user_friendship_1" do
-						before do
-							patch :edit, id: @user_friendship_1.id
-							@user_friendship_1.reload
-						end
-
-						it "should assign @user_friendship_1 to the instance variable #|@user_friendship_1|" do
-							assigns(:user_friendship).should == @user_friendship_1
-						end
-
-						it "should redirect to the show route of that friendship" do
-							response.response_code.should == 200
-						end
-
-					end
-
+=begin
 					context "\b, a PUT request to the #accept action with the :id of @user_friendship_1" do
 						before do
 							put :accept, id: @user_friendship_1.id
@@ -217,6 +382,7 @@ describe UserFriendshipsController do
 							response.should redirect_to user_friendship_path 
 						end
 					end 
+=end
 				end
 			end
 		end
