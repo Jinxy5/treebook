@@ -47,21 +47,54 @@ and the method is put since we're updating the resource.
 11:45
 And we just have a submit_tag for accepting the friendship.
 -->
+<!--
+<#% if @user_friendship.requested? %>
+	<h3> Do you want to be friends with this user? </h3>
+<#% end %>
 
-
-
+<#% if @user_friendship.accepted? %>
+	<h3> You are currently friends with this user. </h3>
+<#% end %>
+-->
 
 
 <div class="form-actions">
 	<% if @user_friendship.requested? %>
-		<%= @friend.first_name %> user has requested your friendship. Accept?
-		<%= form_for @user_friendship, url: accept_user_friendship_path(@user_friendship), method: :put do |form| %>
-			<%= submit_tag "Accept Friendship", class: "btn btn-primary" %>
-		<% end %>
+		<%= @friend.first_name %> user has requested your friendship. Accept the request?
 	
+		<%= form_for @user_friendship, url: accept_user_friendship_path(@user_friendship), method: :put do |form| %>
+			<%= submit_tag "Change the .type to 'accepted' on the user and the friend's userfriendships", class: "btn btn-primary" %>
+		<% end %>
+
+		Or block them?
+
+		<%= form_for @user_friendship, url: block_user_friendship_path(@user_friendship), method: :put do |form| %>
+			<%= submit_tag "Change the .type to 'blocked' on the user and the friend's userfriendships", class: "btn btn-warning" %>
+		<% end %>
+
+		Or delete their request?
+
+		<%= form_for @user_friendship, url: destroy_friendship_path(@user_friendship), method: :delete do |form| %>
+			<%= submit_tag "Delete userfriendships belonging to the user and the friend", class: "btn btn-danger" %>
+		<% end %>
+
 	<% elsif @user_friendship.pending? %>
-		You have sent a request to another user. Delete the request?
+
+		You have sent a request to <%= @friend.first_name %> Delete your request?
+
+		<%= form_for @user_friendship, url: destroy_friendship_path(@user_friendship), method: :delete do |form| %>
+			<%= submit_tag "Delete userfriendships belonging to the user and the friend", class: "btn btn-danger" %>		
+		<% end %>
+		
+	<% elsif @user_friendship.accepted? %>
+		<%= @user_friendship.user.first_name %> and <%= @user_friendship.friend.first_name %> are accepted friends! Friendship started on <%= @user_friendship.created_at %>
+
+		<%= form_for @user_friendship, url: destroy_friendship_path(@user_friendship), method: :delete do |form| %>
+			<%= submit_tag "Delete userfriendships belonging to the user and the friend", class: "btn btn-danger" %>		
+		<% end %>
 		
 	<% end %>
+
+
 
 </div>

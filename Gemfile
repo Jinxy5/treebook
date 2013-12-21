@@ -19,6 +19,7 @@ group :test do
 	gem 'shoulda-matchers'
 	gem 'factory_girl_rails'
 	gem 'capybara', '~> 2.2.0'
+	gem 'webrat'
 	gem 'selenium-webdriver'
 =begin 	
 	capybara-webkit requires an application called 'libqtwebkit-dev' to compile. 
@@ -28,6 +29,7 @@ group :test do
   	sudo apt-get install libqtwebkit-dev
 =end
 #	gem 'capybara-webkit'
+	gem 'guard-livereload', require: false
 	gem 'rb-readline'
 	gem 'launchy'
 	gem 'database_cleaner'
@@ -61,10 +63,10 @@ gem 'simple_form'
 gem 'awesome_print'
 gem 'state_machine'
 gem 'sunspot_rails'
-
+gem 'js-routes'
 gem 'state_machine'
 gem 'ruby-graphviz', :require => 'graphviz' # Optional: only required for graphing
-
+gem 'draper'
 # tests
 gem 'selenium-webdriver'
 

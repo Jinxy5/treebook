@@ -6,15 +6,15 @@ These are <%= current_user.full_name %>'s friends!<br>
 		<%= friend.full_name %>
 		
 		<% if friendship.pending? %>
-			<em> Your request pending. </em> <%= link_to "Delete your request to " + friend.full_name, edit_user_friendship_path(friendship.id) %>
+			<em> Your request pending. </em> <%= link_to "Delete your request to " + friend.full_name, edit_user_friendship_path(friendship.friend.profile_name) %>
 		<% end %>
 
 		<% if friendship.requested? %>
-			<em> Wants to be your friend. </em> <%= link_to "Accept " + friend.full_name + "'s request.", edit_user_friendship_path(friendship.id) %>
+			<em> Wants to be your friend. </em> <%= link_to "Accept " + friend.full_name + "'s request.", edit_user_friendship_path(friendship.friend.profile_name) %>
 		<% end %>
 
 		<% if friendship.accepted? %>
-			<em> wants to be your friend. <em> <%= link_to "Update " + friend.full_name + "'s request.", edit_user_friendship_path(friendship.id) %>
+			<em> Is now friends with you! Friendship started on <%= friendship.created_at %> <em> <%= link_to "Update " + friend.full_name + "'s request.", edit_user_friendship_path(friendship.friend.profile_name) %>
 		<% end %>
 
 

@@ -5,8 +5,12 @@ Treebook::Application.routes.draw do
 
   #get 'index_friend', to:'user_friendships#index'
   
-  #get 'new_friend/:friend_id', to:'user_friendships#new', as: :friendships
+  post 'new_user_friendship/:friend_id', to: 'user_friendships#create', as: :new_friendship
+
+  get 'new_friend/:friend_id', to:'user_friendships#new', as: :friendships
   get 'profiles/:friend_id', to:'profiles#show', as: :profile
+
+  delete 'destroy_friendship/:friend_id', to:'user_friendships#destroy', as: :destroy_friendship
 
   resources :statuses
 
@@ -15,6 +19,7 @@ Treebook::Application.routes.draw do
   resources :user_friendships do
     member do
       put :accept
+      put :block
     end
   end
   

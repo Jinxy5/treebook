@@ -1,6 +1,16 @@
 require 'spec_helper'
 	
 describe User do
+	it { should have_many(:statuses) }
+	it { should have_many(:user_friendships) }
+	it { should have_many(:friends) }
+	it { should have_many(:pending_user_friendships) }
+	it { should have_many(:pending_friends) }
+	it { should have_many(:requested_user_friendships) }
+	it { should have_many(:requested_friends) }
+	it { should have_many(:blocked_user_friendships) }
+	it { should have_many(:blocked_friends) }
+
 	context "\b: With four valid users" do
 		before do
 			@user_1 = FactoryGirl.create(:user_with_all_valid)

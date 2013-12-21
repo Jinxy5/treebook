@@ -1,8 +1,5 @@
 <h1>All of our statuses</h1>
 
-Okay, let's just tweak something
- 
-
 <%= link_to 'Post a New Status', new_status_path, class: "btn btn-success" %>
   
     <a href = "#">JS HERE</a>
@@ -10,17 +7,18 @@ Okay, let's just tweak something
     <% require "ap" %>
     <%= ap @statuses %>
 
-    <% @statuses.each do |status| %>
-      <div class = "status">
-        <strong> <%= link_to status.user.profile_name, profile_path(status.user.profile_name)  %></strong>
-        <p> <%= status.content %> </p>
-        <div class = "meta" >
-          <%= link_to time_ago_in_words(status.created_at) + ' ago', status %> 
-          <span class = "admin">
-             | <%= link_to 'Edit', edit_status_path(status) %> |
-            <%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' } %>
-          </span>
+    <% if @statuses %>
+      <% @statuses.each do |status| %>
+        <div class = "status">
+          <strong> <%= link_to status.user.profile_name, profile_path(status.user.profile_name)  %></strong>
+          <p> <%= status.content %> </p>
+          <div class = "meta" >
+            <%= link_to time_ago_in_words(status.created_at) + ' ago', status %> 
+            <span class = "admin">
+               | <%= link_to 'Edit', edit_status_path(status) %> |
+              <%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </span>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
-

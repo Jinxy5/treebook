@@ -1,16 +1,31 @@
 
-
+<!-- I'm using an instance variable of @profile, Jason's using @user. They're exactly the same, just a slight discrepency when I went ahead of a video! -->
 <h1>Welcome to <%= @profile.profile_name %>'s profile!</h1>
-	<%= link_to "Add " + @profile.profile_name + " as a friend!", friendships_path( @profile.profile_name ), class: 'btn' %>
 
+
+	<%#= link_to "Add " + @profile.profile_name + " as a friend!", friendships_path(@profile.profile_name), class: 'btn' %>
+
+<!-- a devise method. You could also do if current_user == nil -->
+<% if signed_in? %>
+  <div id="friend-status">
+    <% if current_user.friends.include?(@profile) || current_user.pending_friends.include?(@profile) || current_user.requested_friends.include?(@profile) %>
+      <%= link_to "Edit friendship!", edit_user_friendship_path(id: @profile.profile_name), class: 'btn btn-warning' %>
+    <% else %>
+
+
+      <%= link_to "Add friend (create two new friendships)", friendships_path(friend_id: @profile.profile_name), class: 'btn btn-info', id: 'add-friendship', data: { friend_id: @profile.to_param } %>
+    <% end %>
+  </div>
+<% end %>
 
 
     <% @statuses.each do |status| %>
       <div class = "status">
-        <strong> <%= link_to status.user.profile_name, profile_path(status.user.profile_name)  %></strong>
+        <strong> <%#= link_to status.user.profile_name, profile_path(status.user.profile_name)  %></strong>
         <p> <%= status.content %> </p>
         <div class = "meta" >
-          <%= link_to time_ago_in_words(status.created_at) + ' ago', status %> 
+          <!-- time_ago_in_words( THIS CAUSES undefined method `>' for nil:NilClass -->
+          <%= link_to time_ago_in_words(status.created_at.to_s) + ' ago', status %> 
           <span class = "admin">
              | <%= link_to 'Edit', edit_status_path(status) %> |
             <%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' } %>
@@ -18,12 +33,12 @@
         </div>
       </div>
     <% end %>
-
+<!--
     <h1> And here are his friends </h1>
-    <% @friends.each do |f| %>
-    	<%= f[0].profile_name %><br>
-    <% end %>
-
+    <#% @friends.each do |f| %>
+    	<%#= f[0].profile_name %><br>
+    <#% end %>
+-->
 <!-- my way -->
 <%#= #link_to "Add " + @profile.full_name + " as a friend!", friendships_path(params[:id]) %>
 <!-- Jason's way -->

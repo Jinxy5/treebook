@@ -27,6 +27,20 @@ Treebook::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  config.log_level = :fatal
+  config.log_level = :info
+
+  # email settings
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_charset = "utf-8"
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+       :authentication => :plain,
+       :address => "smtp.mailgun.org",
+       :port => 587,
+       :domain => "my-mailgun-domain.com",
+       :user_name => "postmaster@my-mailgun-domain.com",
+       :password => "my-password"
+  }
 
 end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ap'
-describe UserFriendshipsController do
-
+describe UserFriendshipsController, type: :controller do
+	
 	context "" do
 		before do
 		end
@@ -13,6 +13,10 @@ describe UserFriendshipsController do
 			before do
 				@user_1 = FactoryGirl.create(:user_with_all_valid)
 				@user_1.reload
+
+#UserFriendship(id: integer, friend_id: integer, user_id: integer, created_at: datetime, updated_at: datetime, state: string)
+
+		#		@user_friendship_1 = UserFriendship.create(friend_id: 0, user_id: 0 )
 				
 				@user_2 = FactoryGirl.create(:user_with_all_valid_two)
 				@user_2.reload
@@ -22,29 +26,12 @@ describe UserFriendshipsController do
 
 				@user_4 = FactoryGirl.create(:user_with_all_valid_four)
 				@user_4.reload
+
 			end
 
 			context "\b, and when not logged in" do
 				before do
 				end
-
-
-=begin
-				context "\b, a PUT request to the #accept action" do
-					before do
-						put :accept, id: 1
-					end
-
-					it "should redirect to the login page" do
-
-						puts "first one"
-						
-						response.response_code.should == 302
-						response.should be_redirect
-						response.should redirect_to new_user_session_path
-					end
-				end 
-=end
 			end
 
 			context "\b, and when logged in as @user_1" do
@@ -53,8 +40,13 @@ describe UserFriendshipsController do
 				end
 				context "\b, and when a UserFriendship, @user_friendship_1, is joining @user_1 with @user_2," do
 					before do
-						@user_friendship_1 = FactoryGirl.create(:pending_user_friendship, user_id: @user_1.id, friend_id: @user_2.id)
-						@user_friendship_1.reload
+						@user_friendship_1 = UserFriendship.create(user_id: @user_1.id, friend_id: @user_2.id)
+						@user_friendship_2 = UserFriendship.create(user_id: @user_2.id, friend_id: @user_1.id)
+			
+						@user_friendship_3 = UserFriendship.create(user_id: @user_3.id, friend_id: @user_4.id, state: 'pending')
+						@user_friendship_4 = UserFriendship.create(user_id: @user_4.id, friend_id: @user_3.id, state: 'requested')
+			#			@user_friendship_1 = FactoryGirl.create(:pending_user_friendship, user_id: @user_1.id, friend_id: @user_2.id)
+			#			@user_friendship_1.reload
 					end
 
 					context ".requestedpoopis?" do
@@ -105,6 +97,24 @@ describe UserFriendshipsController do
 		
 						it "should return false" do
 							expect @user_friendship_1.denied?.should == false
+						end
+					end
+
+					context "#blocked_friends" do
+						before do
+							get :index, list: 'blocked'
+							render
+						end
+
+						it "should get the index" do
+							response.response_code.should == 200
+						end
+
+						it "should not show pending friends" do
+						    render
+
+						    rendered.should contain('Shirt')
+						    rendered.should contain('50.0')
 						end
 					end
 
@@ -252,21 +262,22 @@ describe UserFriendshipsController do
 
 					context ".edit" do
 						before do
-							get :edit, id: @user_friendship_1.id
-							@user_friendship_1.reload
+							get :edit, id: @user_friendship_1.friend.profile_name
 						end
 
 						it "should respond with a redirect" do
 							response.response_code.should == 200
 						end
 
+						it "should assign a friend" do
+							assigns(:friend).should == @user_2
+						end
+						
 						it "should assign a user_friendship" do
 							assigns(:user_friendship).should == @user_friendship_1
 						end
 
-						it "should assign a friend" do
-							assigns(:friend).should == @user_2
-						end
+
 
 
 					end
@@ -287,6 +298,57 @@ describe UserFriendshipsController do
 						@user_1.friends.should == []
 					end
 
+					context ".destroy" do
+						before do
+							delete :destroy, friend_id: @user_friendship_1.id
+						end
+
+						it "should assign @user_friendship" do
+							assigns(:user_friendship).should == @user_friendship_1
+						end
+
+						it "should delete a user and its mutual friend" do
+							UserFriendship.count.should == 0
+						end
+
+						it "should populate the flash" do
+							flash[:success].should == "User friendship deleted!"
+						end
+					end
+
+					context ".request" do
+						before do
+							UserFriendship.request(@user_1, @user_2)
+						end
+
+						it "should create two user friendships" do
+							# the first two UserFriendships are @user_friendship_1 and @user_friendship_2, and the next 2 are the ones we're concerned with
+							UserFriendship.count.should == 4
+						end
+					end
+
+					context "#block" do
+						before do
+							put :block, id: @user_friendship_1.id
+							# every single time a database entry changes, we need to reload it. We've just called the block method, that changes the #state.
+							@user_friendship_1.reload
+						end
+
+						it "should assign a user_friendship" do
+							assigns(:user_friendship).should == @user_friendship_1
+						end
+
+						it "should set the state to blocked" do
+							@user_friendship_1.state.should == 'blocked'
+						end
+
+						it "should be redirect" do
+							response.response_code.should == 302
+						end
+
+					end
+
+
 
 					context ".accept!" do
 						before do
@@ -306,6 +368,7 @@ describe UserFriendshipsController do
 						end
 
 						it "should send an email" do
+							pending('Still need to get a good mailer going')
 							ActionMailer::Base.deliveries.size.should == 1
 						end
 
@@ -321,11 +384,12 @@ describe UserFriendshipsController do
 					context "#create" do
 						# create uses the friend's id. 
 						before do
-							get :create, id: @user_2.id
+							get :create, friend_id: @user_2.id
 						end
 
 						it "should create two user friendships" do
-							UserFriendship.count.should == 3
+							# the first two UserFriendships are @user_friendship_1 and @user_friendship_2, and the next 2 are the ones we're concerned with
+							UserFriendship.count.should == 4
 						end
 
 						it "" do
@@ -339,22 +403,11 @@ describe UserFriendshipsController do
 
 
 						it "should populate the flash with a success message" do
-							flash[:success].should == "You are now friends with " + @user_friendship_1.friend.first_name + "!"
-							flash[:success].should == "You are now friends with " + @user_2.first_name + "!"
+							flash[:success].should == "Friend request sent to " + @user_friendship_1.friend.first_name + "!"
+							flash[:success].should == "Friend request sent to " + @user_2.first_name + "!"
 						end
 					end
 
-
-					context ".request" do
-						before do
-							UserFriendship.request(@user_1, @user_2)
-						end
-
-						it "should create two user friendships" do
-							# the 1st UserFriendship is @user_friendship_1, and the last 2 the ones we're concerned with
-							UserFriendship.count.should == 3
-						end
-					end
 
 
 
