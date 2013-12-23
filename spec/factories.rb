@@ -1,4 +1,144 @@
 FactoryGirl.define do
+	factory :created_at_updated_at do
+		created_at Time.now
+		updated_at Time.now
+		
+		factory :users, class: User do
+			password "thisisasupersecretpassword12234234"
+			password_confirmation "thisisasupersecretpassword12234234"
+			
+			factory :user_0 do
+				id 0
+				first_name "Charles"
+				last_name "Dickens"
+				profile_name "LondonBo4880"	
+				email "quite_the_twist@live.co.uk"
+=begin
+				factory :user_0_invalid_id do
+					id "invalid"
+				end
+				factory :user_0_invalid_first_name do
+				end
+				factory :user_0_invalid_last_name do
+				end
+				factory :user_0_invalid_profile_name do
+				end
+				factory :user_0_invalid_email do
+				end
+=end
+			end
+
+			factory :user_1 do
+				id 1
+				first_name "Mark"
+				last_name "Twain"
+				profile_name "Wiseyank23"	
+				email "twainy@live.com"
+			end
+
+			factory :user_2 do
+				id 2
+				first_name "Sylvia"
+				last_name "Plath"
+				profile_name "Ovens"	
+				email "plathy@awesome.com"
+			end
+
+			factory :user_3 do
+				id 3
+				first_name "Rabbity"
+				last_name "Furface"
+				profile_name "Carrots"	
+				email "kittens@kat.com"
+			end
+		end
+
+		factory :user_friendships, class: UserFriendship do
+			
+			factory :user_0_user_1_user_friendship do
+				user_id 0
+				friend_id 1
+
+				factory :pending_user_0_user_1 do
+					id 0
+					state "pending"
+				end
+			end
+
+			factory :user_1_user_0 do
+				user_id 1
+				friend_id 0
+
+				factory :requested_user_1_user_0 do
+					id 1
+					state "requested"
+				end
+			end
+
+			factory :user_0_user_2_user_friendship do
+				user_id 0
+				friend_id 2
+
+				factory :pending_user_0_user_2 do
+					id 2
+					state "pending"
+				end
+			end
+
+			factory :user_2_user_0_user_friendship do
+				user_id 2
+				friend_id 0
+
+				factory :requested_user_2_user_0 do
+					id 3
+					state "requested"
+				end
+			end
+		end
+
+		factory :statuses, class: Status do
+			factory :user_0_statuses do	
+				user_id 0
+
+				factory :user_0_status_0 do
+					id 0
+					content "Greetings, this is the first status"
+				end
+				factory :user_0_status_1 do
+					id 1
+					content "Hello all, this is my second status"
+				end
+				factory :user_0_status_2 do
+					id 2
+					content "Right, here comes a third status!"
+				end
+				factory :user_0_status_3 do
+					id 3
+					content "A fourth one. Oh goody."
+				end
+			end
+		end
+	end
+end
+#	factory :status, class: Status do
+#		factory :user_0_statuses do
+#			factory :user_0_status_0 do
+#				id 3
+#				id 0
+#				user_id 0
+#				content "Hello"
+#				created_at Time.now
+#				updated_at Time.now
+#			end
+
+#			factory :user_0_status_1 do
+#				id 1
+#				content "Hello"
+#			end
+
+			
+#		end
+#	end
 =begin
 	factory :summing_else do
 		#########
@@ -333,6 +473,7 @@ FactoryGirl.define do
 		end
 	end
 =end
+=begin
 	factory :user_4, class: User do
 		first_name "Charles"
 		last_name "Dickens"
@@ -415,3 +556,4 @@ FactoryGirl.define do
 		end
 	end
 end
+=end

@@ -63,10 +63,6 @@ making sure that nobody can just find any other user friendships.
 	end
 	
 	def edit
-		# Because we're calling this method from a profile page, and param[:id] is populated by
-		# by the profile's id, @user_friendship is the FRIEND'S UserFriendship 
-		# and @friend is the USER'S UserFriendship
-
 		@friend = User.find_by(profile_name: params[:id])
 
 		logger.info "------"
@@ -76,14 +72,12 @@ making sure that nobody can just find any other user friendships.
 
 		logger.info "_*&&"
 		logger.info @user_friendship.inspect
-#		logger.info "----- Here it comes -----"
-#		logger.info @user_friendship.inspect
-#
-#		@friend = @user_friendship.friend
 	end
 
 	def index
-		@user_friendships = current_user.user_friendships.load 
+		@user_friendships = current_user.user_friendships.load
+		# instead of rendering a view, we can popul
+		respond_with @user_friendships
 	end
 	
 	def new 

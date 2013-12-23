@@ -11,22 +11,10 @@ describe UserFriendshipsController, type: :controller do
 
 		context "\b: When four valid User instances exist, @user_1, @user_2, @user_3, @user_4" do
 			before do
-				@user_1 = FactoryGirl.create(:user_with_all_valid)
-				@user_1.reload
-
-#UserFriendship(id: integer, friend_id: integer, user_id: integer, created_at: datetime, updated_at: datetime, state: string)
-
-		#		@user_friendship_1 = UserFriendship.create(friend_id: 0, user_id: 0 )
-				
-				@user_2 = FactoryGirl.create(:user_with_all_valid_two)
-				@user_2.reload
-				
-				@user_3 = FactoryGirl.create(:user_with_all_valid_three)
-				@user_3.reload
-
-				@user_4 = FactoryGirl.create(:user_with_all_valid_four)
-				@user_4.reload
-
+				@user_0 = FactoryGirl.build(:user_0)
+				@user_1 = FactoryGirl.build(:user_1)
+				@user_2 = FactoryGirl.build(:user_2)
+				@user_3 = FactoryGirl.build(:user_3)
 			end
 
 			context "\b, and when not logged in" do
@@ -36,57 +24,62 @@ describe UserFriendshipsController, type: :controller do
 
 			context "\b, and when logged in as @user_1" do
 				before do
-					sign_in @user_1
+					sign_in @user_0
 				end
 				context "\b, and when a UserFriendship, @user_friendship_1, is joining @user_1 with @user_2," do
 					before do
-						@user_friendship_1 = UserFriendship.create(user_id: @user_1.id, friend_id: @user_2.id)
-						@user_friendship_2 = UserFriendship.create(user_id: @user_2.id, friend_id: @user_1.id)
-			
-						@user_friendship_3 = UserFriendship.create(user_id: @user_3.id, friend_id: @user_4.id, state: 'pending')
-						@user_friendship_4 = UserFriendship.create(user_id: @user_4.id, friend_id: @user_3.id, state: 'requested')
-			#			@user_friendship_1 = FactoryGirl.create(:pending_user_friendship, user_id: @user_1.id, friend_id: @user_2.id)
-			#			@user_friendship_1.reload
+					#	@user_friendship_0 = UserFriendship.create(user_id: @user_1.id, friend_id: @user_2.id)
+					#	@user_friendship_1 = UserFriendship.create(user_id: @user_2.id, friend_id: @user_1.id)
+					#	@user_friendship_2 = UserFriendship.create(user_id: @user_3.id, friend_id: @user_4.id, state: 'pending')
+					#	@user_friendship_3 = UserFriendship.create(user_id: @user_4.id, friend_id: @user_3.id, state: 'requested')
+						
+						@user_friendship_0 = FactoryGirl.build(:pending_user_0_user_1)
+						@user_friendship_1 = FactoryGirl.build(:requested_user_1_user_0)
+						@user_friendship_2 = FactoryGirl.build(:pending_user_0_user_2)
+						@user_friendship_3 = FactoryGirl.build(:requested_user_2_user_0)
+
+
+					#	ap FactoryGirl.build(:pending_user_0_user_1)
 					end
 
 					context ".requestedpoopis?" do
 						it "should not raise error" do
-							expect{ @user_friendship_1.requestedpoopis? }.to_not raise_error
+							expect{ @user_friendship_0.requestedpoopis? }.to_not raise_error
 						end
 
 						it "should return false" do
-							@user_friendship_1.requestedpoopis?.should == false
+							@user_friendship_0.requestedpoopis?.should == false
 						end
 					end
 
 					context ".requested?" do
 						it "should not raise error" do
-							expect{ @user_friendship_1.requested? }.to_not raise_error
+							expect{ @user_friendship_0.requested? }.to_not raise_error
 						end
 
 						it "should return false" do
-							@user_friendship_1.requested?.should == false
+							@user_friendship_0.requested?.should == false
 						end
 					end
 
 
 					context ".pending?" do
 						it "should not raise error" do
-							expect{ @user_friendship_1.pending? }.to_not raise_error
+							expect{ @user_friendship_0.pending? }.to_not raise_error
 						end
 
 						it "should return false" do
-							@user_friendship_1.pending?.should == true
+							@user_friendship_0.pending?.should == true
 						end
 					end
 
 					context ".accepted?" do
 						it "should not raise error" do
-							expect{ @user_friendship_1.accepted? }.to_not raise_error
+							expect{ @user_friendship_0.accepted? }.to_not raise_error
 						end
 
 						it "should return false" do
-							@user_friendship_1.accepted?.should == false
+							@user_friendship_0.accepted?.should == false
 						end
 					end
 					
